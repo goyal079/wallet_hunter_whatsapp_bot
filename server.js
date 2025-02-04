@@ -3,6 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const routes = require("./app/routes");
 const { sequelize } = require("./config/database");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
 
 const app = express();
 
@@ -11,9 +14,10 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-console.log(process.env.DB_USERNAME, process.env.DB_PASSWORD, process.env.DB_NAME, process.env.DB_HOST, process.env.DB_PORT, process.env.DB_URL);
+
 // Routes
 app.use("/api", routes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Error handling middleware
 app.use((err, req, res, next) => {

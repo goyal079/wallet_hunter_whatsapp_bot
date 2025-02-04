@@ -1,0 +1,241 @@
+openapi: 3.0.0
+info:
+  title: Member Management API
+  description: API documentation for Member Management System
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local development server
+
+components:
+  schemas:
+    Member:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        gender:
+          type: string
+          enum: [Male, Female, Other]
+        age:
+          type: integer
+        bloodGroup:
+          type: string
+        mobile1:
+          type: string
+        mobile2:
+          type: string
+        education:
+          type: string
+        occupation:
+          type: string
+        annualIncome:
+          type: string
+        maritalStatus:
+          type: string
+        samajName:
+          type: string
+
+    FilterOptions:
+      type: object
+      properties:
+        samajOptions:
+          type: array
+          items:
+            type: string
+        bloodGroupOptions:
+          type: array
+          items:
+            type: string
+        genderOptions:
+          type: array
+          items:
+            type: string
+        ageRange:
+          type: object
+          properties:
+            min:
+              type: integer
+            max:
+              type: integer
+        maritalStatusOptions:
+          type: array
+          items:
+            type: string
+
+paths:
+  /members:
+    get:
+      summary: Get members list
+      description: Returns a paginated list of members with optional filters
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Items per page
+        - in: query
+          name: samaj
+          schema:
+            type: string
+          description: Filter by samaj name
+        - in: query
+          name: gender
+          schema:
+            type: string
+          description: Filter by gender
+        - in: query
+          name: ageMin
+          schema:
+            type: integer
+          description: Minimum age filter
+        - in: query
+          name: ageMax
+          schema:
+            type: integer
+          description: Maximum age filter
+        - in: query
+          name: bloodGroup
+          schema:
+            type: string
+          description: Filter by blood group
+        - in: query
+          name: maritalStatus
+          schema:
+            type: string
+          description: Filter by marital status
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+            default: name
+          description: Field to sort by
+        - in: query
+          name: sortOrder
+          schema:
+            type: string
+            enum: [ASC, DESC]
+            default: ASC
+          description: Sort order
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  totalPages:
+                    type: integer
+                  currentPage:
+                    type: integer
+                  members:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Member"
+        "500":
+          description: Server error
+
+  /members/{id}:
+    get:
+      summary: Get member by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Member ID
+      responses:
+        "200":
+          description: Member found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Member"
+        "404":
+          description: Member not found
+        "500":
+          description: Server error
+
+  /members/filter-options:
+    get:
+      summary: Get filter options
+      description: Returns available options for filters
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilterOptions"
+        "500":
+          description: Server error
+
+  /members/download:
+    get:
+      summary: Download members data
+      description: Returns all member data for CSV download
+      parameters:
+        - in: query
+          name: samaj
+          schema:
+            type: string
+          description: Filter by samaj name
+        - in: query
+          name: gender
+          schema:
+            type: string
+          description: Filter by gender
+        - in: query
+          name: ageMin
+          schema:
+            type: integer
+          description: Minimum age filter
+        - in: query
+          name: ageMax
+          schema:
+            type: integer
+          description: Maximum age filter
+        - in: query
+          name: bloodGroup
+          schema:
+            type: string
+          description: Filter by blood group
+        - in: query
+          name: maritalStatus
+          schema:
+            type: string
+          description: Filter by marital status
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Member"
+                  count:
+                    type: integer
+        "500":
+          description: Server error

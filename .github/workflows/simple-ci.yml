@@ -1,0 +1,25 @@
+name: Simple CI
+
+on:
+  push:
+    branches: [ main, master ]  # Triggers on push to either main or master branch
+
+jobs:
+  log-commit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Log Commit Info
+      run: |
+        echo "🚀 New commit pushed!"
+        echo "Commit message: ${{ github.event.head_commit.message }}"
+        echo "Committed by: ${{ github.event.head_commit.author.name }}"
+        echo "Time: ${{ github.event.head_commit.timestamp }}"
+
+    - name: Check Node.js installation
+      run: |
+        node --version
+        npm --version 

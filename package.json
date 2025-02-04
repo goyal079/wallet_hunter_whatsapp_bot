@@ -22,8 +22,10 @@
     "pg": "^8.x.x",
     "pg-hstore": "^2.x.x",
     "sequelize": "^6.x.x",
+    "swagger-ui-express": "^5.0.1",
     "twilio": "^4.x.x",
-    "winston": "^3.x.x"
+    "winston": "^3.x.x",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "eslint": "^8.x.x",
