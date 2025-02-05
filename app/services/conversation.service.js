@@ -51,7 +51,7 @@ const MESSAGES = {
   ASK_MOBILE1: "Please enter your primary mobile number (10 digits):",
   ASK_MOBILE2:
     "Please enter your secondary mobile number (10 digits or type 'skip'):",
-  ASK_DOB: "Please enter your date of birth (DD-MM-YYYY) or type 'skip':",
+  ASK_DOB: "Please enter your date of birth (DD-MM-YYYY):",
 
   // Documents
   ASK_AADHAR: "Please enter your Aadhar number or type 'skip':",
@@ -93,6 +93,7 @@ const MESSAGES = {
   INVALID_INPUT: "Invalid input. Please try again.",
   INVALID_MOBILE: "Please enter a valid 10-digit mobile number.",
   INVALID_EMAIL: "Please enter a valid email address or type 'skip'.",
+  INVALID_DOB: "Please enter a valid date of birth.",
   INVALID_AGE: "Please enter a valid age between 0 and 120.",
   INVALID_BLOOD_GROUP:
     "Invalid blood group. Please enter one of: A+, A-, B+, B-, AB+, AB-, O+, O-",
@@ -441,16 +442,6 @@ async function handleMessage(from, message) {
         return MESSAGES.ASK_DOB;
 
       case CONVERSATION_STATES.COLLECTING_DOB:
-        if (message.toLowerCase() === "skip") {
-          await updateConversation(
-            conversation,
-            CONVERSATION_STATES.COLLECTING_EMAIL,
-            {
-              dateOfBirth: null,
-            }
-          );
-          return MESSAGES.ASK_EMAIL;
-        }
         if (!validations.isValidDate(message)) return MESSAGES.INVALID_DATE;
 
         await updateConversation(
