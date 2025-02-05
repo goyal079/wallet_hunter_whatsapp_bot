@@ -5,7 +5,7 @@ A WhatsApp-based member data collection system with web visualization.
 
 ## Quick Links
 
-- 🤖 Chat with the bot: +1 (415) 523-8886 (send "join" followed by "hi")
+- 🤖 Chat with the bot: +1 (415) 523-8886 (send "join chair-buy" followed by "hello")
 - 🌐 View collected data: [https://wallet-hunter.onrender.com/](https://wallet-hunter.onrender.com/)
 
 ## Overview
