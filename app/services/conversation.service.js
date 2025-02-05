@@ -721,7 +721,7 @@ async function handleMessage(from, message) {
             conversation,
             CONVERSATION_STATES.COLLECTING_HEALTH_INSURANCE,
             {
-              emergencyName: null,
+              emergencyNumber: null,
             }
           );
           return MESSAGES.ASK_HEALTH_INSURANCE;
